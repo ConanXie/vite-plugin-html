@@ -328,9 +328,9 @@ function createRewire(
   return {
     from: new RegExp(`^/${reg}*`),
     to({ parsedUrl }: any) {
-      const pathname: string = parsedUrl.pathname
+      const { path: url } = parsedUrl
 
-      const excludeBaseUrl = pathname.replace(baseUrl, '/')
+      const excludeBaseUrl = url.replace(baseUrl, '/')
 
       const template = path.resolve(baseUrl, page.template)
 
@@ -338,7 +338,7 @@ function createRewire(
         return template
       }
       const isApiUrl = proxyUrlKeys.some((item) =>
-        pathname.startsWith(path.resolve(baseUrl, item)),
+        url.startsWith(path.resolve(baseUrl, item)),
       )
       return isApiUrl ? excludeBaseUrl : template
     },
